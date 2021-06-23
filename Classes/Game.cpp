@@ -31,7 +31,7 @@ bool GameScene::init()
 	//绘制蛇头
     this->snakeHead = SNode::create();
 	this->snakeHead->setColor(Color3B::RED);
-	this->addChild(snakeHead);
+	map->addChild(snakeHead);
 	//初始化蛇头位置
 	int rowSnakeHead = rand() % 10;
 	int columnSnakeHead = rand() % 10;
@@ -42,7 +42,7 @@ bool GameScene::init()
 	this->snakeHead->setColor(Color3B::ORANGE);
     mapx = map->getPositionX();
     mapy = map->getPositionY();
-	this->addChild(food);
+	map->addChild(food);
 	int rowFood = 0, columnFood = 0;
 	//初始化食物位置，且要防止食物的位置和蛇头位置重叠
 	while (1)
@@ -55,7 +55,7 @@ bool GameScene::init()
 			break;
 	}
 	//让蛇头运动
-    this->snakeHead->schedule(CC_SCHEDULE_SELECTOR(GameScene::gameLogc), 0.2);
+    //this->snakeHead->schedule(CC_SCHEDULE_SELECTOR(GameScene::gameLogc), 0.2);
     //改变蛇头方向
     //auto* dispatcher = Director::getInstance()->getEventDispatcher();
     //auto* keyListener = EventListenerKeyboard::create();
