@@ -30,6 +30,8 @@ public:
     Vector<SNode*> allBody;//用vector组成的节点代表身体
     int mapx;
     int mapy;
+    int score;
+    float speed;
     CREATE_FUNC(GameScene);
     bool init();
     static Scene* createScene();
