@@ -1,5 +1,7 @@
 #include"Game.h"
 #include"HelloWorldScene.h"
+#include"Gameover.h"
+
 Scene* GameScene::createScene()//创建场景
 {
     auto scene = Scene::create();
@@ -178,10 +180,30 @@ void GameScene::gameLogc(float t) //游戏逻辑的实现
         auto labelScore = (Label*)this->getChildByTag(1);
         score++;
         labelScore->setString(StringUtils::format("Score: % d", score));
-        if (score % 4 == 0&&score<=20)//每4分加一次速，最高不超过5次
+        if (score==6)//加速
         {
             Scheduler* pSchedule = Director::getInstance()->getScheduler();//获取全局时间管理者
-            pSchedule->setTimeScale(1.3f);
+            pSchedule->setTimeScale(1.5f);
+        }
+        if (score == 12)
+        {
+            Scheduler* pSchedule = Director::getInstance()->getScheduler();
+            pSchedule->setTimeScale(2.0f);
+        }
+        if (score ==18)
+        {
+            Scheduler* pSchedule = Director::getInstance()->getScheduler();
+            pSchedule->setTimeScale(2.5f);
+        }
+        if (score == 24)
+        {
+            Scheduler* pSchedule = Director::getInstance()->getScheduler();
+            pSchedule->setTimeScale(3.0f);
+        }
+        if (score == 30)
+        {
+            Scheduler* pSchedule = Director::getInstance()->getScheduler();
+            pSchedule->setTimeScale(3.5f);
         }
         //新生成食物
         while (1)
@@ -258,7 +280,14 @@ void GameScene::gameLogc(float t) //游戏逻辑的实现
     for (int i = allBody.size() - 1; i >= 0; i--)
     {
         if (allBody.at(i)->x == snakeHead->x && allBody.at(i)->y == snakeHead->y)
+        {
             this->unschedule(CC_SCHEDULE_SELECTOR(GameScene::gameLogc));
+            auto scene = Scene::create();
+            auto layer = GameoverScene::create();
+            layer->score = score;
+            scene->addChild(layer);
+            Director::getInstance()->replaceScene(TransitionFade::create(1.2, scene));
+        }
         //如果蛇头碰到身体就gameover
     }
 }
