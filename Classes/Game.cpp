@@ -1,6 +1,8 @@
 #include"Game.h"
 #include"HelloWorldScene.h"
 #include"Gameover.h"
+#include<algorithm>
+using namespace std;
 
 Scene* GameScene::createScene()//创建场景
 {
@@ -54,7 +56,7 @@ bool GameScene::init()
         if (rowFood != rowSnakeHead || columnFood != columnSnakeHead)
             break;
     }
-    this->speed = 5;//设定初始速度
+    this->speed = UserDefault::getInstance()->getFloatForKey("speed");;//设定初始速度
     //显示分数;
     this->score = 0;//设定初始分数
     auto labelScore = Label::createWithTTF("Score:", "fonts/Marker Felt.ttf", 50);
@@ -64,7 +66,9 @@ bool GameScene::init()
     this->addChild(labelScore);
     labelScore->setString(StringUtils::format("Score: % d", score));
     //让蛇头运动
-    schedule(CC_SCHEDULE_SELECTOR(GameScene::gameLogc), 1/speed);
+    Scheduler* pSchedule = Director::getInstance()->getScheduler();//获取全局时间管理者
+    pSchedule->setTimeScale(1.0f);
+    schedule(CC_SCHEDULE_SELECTOR(GameScene::gameLogc), speed);
     //改变蛇头方向
     auto* dispatcher = Director::getInstance()->getEventDispatcher();
     auto* keyListener = EventListenerKeyboard::create();
@@ -190,20 +194,30 @@ void GameScene::gameLogc(float t) //游戏逻辑的实现
             Scheduler* pSchedule = Director::getInstance()->getScheduler();
             pSchedule->setTimeScale(2.0f);
         }
-        if (score ==18)
+        if (score ==20)
         {
             Scheduler* pSchedule = Director::getInstance()->getScheduler();
             pSchedule->setTimeScale(2.5f);
         }
-        if (score == 24)
+        if (score == 36)
         {
             Scheduler* pSchedule = Director::getInstance()->getScheduler();
             pSchedule->setTimeScale(3.0f);
         }
-        if (score == 30)
+        if (score == 50)
         {
             Scheduler* pSchedule = Director::getInstance()->getScheduler();
             pSchedule->setTimeScale(3.5f);
+        }
+        if (score == 80)
+        {
+            Scheduler* pSchedule = Director::getInstance()->getScheduler();
+            pSchedule->setTimeScale(4.0f);
+        }
+        if (score == 100)
+        {
+            Scheduler* pSchedule = Director::getInstance()->getScheduler();
+            pSchedule->setTimeScale(5.0f);
         }
         //新生成食物
         while (1)
@@ -279,16 +293,35 @@ void GameScene::gameLogc(float t) //游戏逻辑的实现
     //游戏结束判断
     for (int i = allBody.size() - 1; i >= 0; i--)
     {
+        //如果蛇头碰到身体就gameover
         if (allBody.at(i)->x == snakeHead->x && allBody.at(i)->y == snakeHead->y)
         {
-            this->unschedule(CC_SCHEDULE_SELECTOR(GameScene::gameLogc));
-            auto scene = Scene::create();
-            auto layer = GameoverScene::create();
-            layer->score = score;
-            scene->addChild(layer);
-            Director::getInstance()->replaceScene(TransitionFade::create(1.2, scene));
+            //储存成绩
+            UserDefault::getInstance()->setIntegerForKey("nowScore", score);
+            UserDefault::getInstance()->flush();
+            //读取原有排行榜
+            int score[6];
+            score[0] = UserDefault::getInstance()->getIntegerForKey("nowScore");
+            score[1] = UserDefault::getInstance()->getIntegerForKey("bestScore1");
+            score[2] = UserDefault::getInstance()->getIntegerForKey("bestScore2");
+            score[3] = UserDefault::getInstance()->getIntegerForKey("bestScore3");
+            score[4] = UserDefault::getInstance()->getIntegerForKey("bestScore4");
+            score[5] = UserDefault::getInstance()->getIntegerForKey("bestScore5");
+
+            //排序
+            sort(score, score + 6, greater<int>());
+
+            //重新赋值
+            UserDefault::getInstance()->setIntegerForKey("bestScore1", score[0]);
+            UserDefault::getInstance()->setIntegerForKey("bestScore2", score[1]);
+            UserDefault::getInstance()->setIntegerForKey("bestScore3", score[2]);
+            UserDefault::getInstance()->setIntegerForKey("bestScore4", score[3]);
+            UserDefault::getInstance()->setIntegerForKey("bestScore5", score[4]);
+            UserDefault::getInstance()->flush();
+
+            //切换到gameover界面
+            Director::getInstance()->replaceScene(TransitionFade::create(1.2, GameoverScene::create()));
         }
-        //如果蛇头碰到身体就gameover
     }
 }
 

@@ -25,6 +25,7 @@ bool GameoverScene::init()
     this->addChild(title);
 
     auto scoreLabel = Label::createWithTTF("Your score is", "fonts/Marker Felt.ttf", 70);
+    score= UserDefault::getInstance()->getIntegerForKey("nowScore");
     scoreLabel->setString(StringUtils::format("Your score is % d", score));
     scoreLabel->setPosition(visibleSize.width / 2, visibleSize.height * 0.65);
     this->addChild(scoreLabel);

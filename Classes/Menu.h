@@ -14,4 +14,5 @@ public:
 
     void menuStartCallback(cocos2d::Ref* pSender);
     void menuExitCallback(cocos2d::Ref* pSender);
+    void menuRankinglistCallback(cocos2d::Ref* pSender);
 };

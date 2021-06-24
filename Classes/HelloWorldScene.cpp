@@ -100,43 +100,6 @@ bool HelloWorld::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
-
-    // add "HelloWorld" splash screen"
-    /*auto sprite = Sprite::create("HelloWorld.png");
-    if (sprite == nullptr)
-    {
-        problemLoading("'HelloWorld.png'");
-    }
-    else
-    {
-        // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-        // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
-    }*/
-    /*auto spriteA = Sprite::create("nana.jpg");
-    spriteA->setPosition(200, 200);
-    spriteA->setScale(0.3);
-    this->addChild(spriteA);
-    auto spriteC = Sprite::create("monster.png");
-    spriteC->setPosition(Vec2(visibleSize.width/4*3+30,visibleSize.height/2));
-    spriteC->setScale(2);
-    this->addChild(spriteC);
-    auto labelTTF = Label::createWithTTF("Happy","fonts/Marker Felt.ttf",60);
-    labelTTF->setPosition(200,400);
-    this->addChild(labelTTF);
-    //labelTTF->enableOutline(Color4B(255, 125, 0, 255), 6);//描边，颜色，大小
-    labelTTF->enableShadow(Color4B(rand() / 255, rand() / 255, rand() / 255, rand() / 255), Size(2, -2), 0.5);//阴影，颜色，相对字体的位置，透明度
-    TTFConfig config2("fonts/Marker Felt.ttf", 60);//初始化字体，路径，字号
-    auto label2 = Label::createWithTTF(config2, "create with TTF", TextHAlignment::LEFT);
-    //创建label，左对齐(字体，内容，左对齐)
-    label2->setPosition(visibleSize/2);
-    label2->setAnchorPoint(Point::ANCHOR_MIDDLE);
-    label2->enableGlow(Color4B(rand()/255, rand() / 255, rand() / 255, rand() / 255));//设置荧光效果
-    label2->setRotation(rand() / 180);
-    this->addChild(label2);*/
-
     return true;
 }
 

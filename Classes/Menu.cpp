@@ -1,6 +1,8 @@
 #include"Menu.h"
 #include"Game.h"
 #include"HelloWorldScene.h"
+#include"Rankinglist.h"
+#include"Level.h"
 
 USING_NS_CC;
 
@@ -38,7 +40,7 @@ bool MainMenu::init()
     //排行榜
     auto rankingLabel = Label::createWithTTF("RankingList", "fonts/Marker Felt.ttf", 50);
     rankingLabel->enableGlow(Color4B::BLUE);//设置荧光效果
-    auto rankingItem = MenuItemLabel::create(rankingLabel, CC_CALLBACK_1(MainMenu::menuExitCallback, this));
+    auto rankingItem = MenuItemLabel::create(rankingLabel, CC_CALLBACK_1(MainMenu::menuRankinglistCallback, this));
     rankingItem->setPosition(visibleSize.width / 2, visibleSize.height * 0.4);
     auto menu = Menu::create(startItem,exitItem,rankingItem, NULL);
     menu->setPosition(Vec2::ZERO);
@@ -48,10 +50,15 @@ bool MainMenu::init()
 
 void MainMenu::menuStartCallback(cocos2d::Ref* pSender)
 {
-    Director::getInstance()->replaceScene(TransitionFade::create(1.2, GameScene::createScene()));
+    Director::getInstance()->replaceScene(TransitionFade::create(1.2, LevelScene::createScene()));
 }
 
 void MainMenu::menuExitCallback(cocos2d::Ref* pSender)
 {
     Director::getInstance()->end();
+}
+
+void MainMenu::menuRankinglistCallback(cocos2d::Ref* pSender)
+{
+    Director::getInstance()->replaceScene(TransitionFade::create(1.2, Rankinglist::createScene()));
 }
