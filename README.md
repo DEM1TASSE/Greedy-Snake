@@ -1,4 +1,7 @@
-# Greedy-Snake
+# Greedy Snake
+<img src="https://github.com/DEM1TASSE/GreedySnake/assets/86202027/4b5a57ac-e480-488b-83ad-1391ab40e5b6" alt="image" width="600"/>  
+
+
 Welcome to Greedy Snake, a classic and addictive game that was developed as the final project for software engineering honors course during my freshman year at Tongji University.
 
 
